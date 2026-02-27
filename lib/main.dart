@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'scan_screen.dart';
 
 void main() {
   runApp(SuriVionApp());
@@ -63,6 +64,13 @@ class HomeScreen extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ScanScreen(),
+                  ),
+                );
 
               },
               child: Text(
