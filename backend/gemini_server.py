@@ -2,13 +2,19 @@ import os
 
 from flask import Flask, jsonify, request
 from google import genai
+from dotenv import load_dotenv
+
+load_dotenv()
 
 api_key = os.environ.get('GEMINI_API_KEY')
 if not api_key:
     raise RuntimeError('GEMINI_API_KEY is not set in environment variables.')
 
 client = genai.Client(api_key=api_key)
-BACKEND_VERSION = '2026-03-02-v2'
+BACKEND_VERSION = '2026-03-03-v4'
+OFFLINE_FALLBACK_REPLY = (
+    'AI is currently unavailable. Please try again tomorrow at exact 4:00pm.'
+)
 MODEL_CANDIDATES = [
     'gemini-2.5-flash',
     'models/gemini-2.5-flash',
@@ -55,6 +61,14 @@ def chat():
         return jsonify({'reply': reply})
     except Exception as error:
         print(f'Gemini error: {error}')
+        if _is_quota_error(error):
+            return jsonify(
+                {
+                    'reply': OFFLINE_FALLBACK_REPLY,
+                    'fallback': True,
+                    'reason': 'quota_exceeded',
+                }
+            )
         return jsonify({'error': f'failed to generate response: {error}'}), 500
 
 
@@ -71,6 +85,17 @@ def _generate_reply(user_message):
             errors.append(f'{model_name}: {error}')
 
     raise RuntimeError(' | '.join(errors))
+
+
+def _is_quota_error(error):
+    error_text = str(error).lower()
+    quota_signals = [
+        'resource_exhausted',
+        'quota exceeded',
+        'rate limit',
+        '429',
+    ]
+    return any(signal in error_text for signal in quota_signals)
 
 
 if __name__ == '__main__':
