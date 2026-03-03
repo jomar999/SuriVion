@@ -24,3 +24,15 @@ The chatbot endpoint can be changed without editing source code by using
 	`flutter run --dart-define=CHAT_ENDPOINT=http://127.0.0.1:5000/chat`
 - Wi-Fi mode (replace with your PC LAN IP):
 	`flutter run --dart-define=CHAT_ENDPOINT=http://192.168.1.109:5000/chat`
+
+## One-command USB start
+
+To avoid retyping backend + adb reverse + flutter run every session, use:
+
+`powershell -ExecutionPolicy Bypass -File .\scripts\start_usb_dev.ps1`
+
+This script will:
+- start backend server in a new PowerShell window
+- run `adb reverse tcp:5000 tcp:5000`
+- auto-detect the connected Android device
+- run Flutter with `CHAT_ENDPOINT=http://127.0.0.1:5000/chat`
