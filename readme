@@ -1,0 +1,4 @@
+git status (see changed files)
+git add . (or add specific files)
+git commit -m "Describe your changes"
+git push
