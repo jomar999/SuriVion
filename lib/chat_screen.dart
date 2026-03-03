@@ -19,7 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   static final String _chatEndpoint = _chatEndpointFromEnv.trim().isEmpty
       ? _defaultChatEndpoint
       : _chatEndpointFromEnv;
-  static const Duration _requestTimeout = Duration(seconds: 20);
+  static const Duration _requestTimeout = Duration(seconds: 75);
 
   final TextEditingController _controller = TextEditingController();
   final List<_ChatMessage> _messages = [];
@@ -80,7 +80,7 @@ class _ChatScreenState extends State<ChatScreen> {
           _ChatMessage(
             role: _Role.system,
             text:
-                'Request timed out after ${_requestTimeout.inSeconds}s. Check server, IP, firewall, and Wi-Fi.',
+                'Request timed out after ${_requestTimeout.inSeconds}s. If using free Render, first request can take up to ~60s while the service wakes up. Try once more.',
           ),
         );
       });
