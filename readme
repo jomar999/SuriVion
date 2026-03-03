@@ -1,0 +1,10 @@
+cd "C:\Users\Carlo Libramonte\surivion\backend"
+
+.\.venv\Scripts\python.exe gemini_server.py
+
+In another terminal, enable USB tunnel:
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" reverse tcp:5000 tcp:5000
+
+Quick verify before opening chat:
+
+Invoke-RestMethod http://127.0.0.1:5000/health

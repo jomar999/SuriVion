@@ -14,3 +14,13 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Chat endpoint switching
+
+The chatbot endpoint can be changed without editing source code by using
+`--dart-define=CHAT_ENDPOINT=...`.
+
+- USB mode (with `adb reverse tcp:5000 tcp:5000`):
+	`flutter run --dart-define=CHAT_ENDPOINT=http://127.0.0.1:5000/chat`
+- Wi-Fi mode (replace with your PC LAN IP):
+	`flutter run --dart-define=CHAT_ENDPOINT=http://192.168.1.109:5000/chat`

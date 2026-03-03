@@ -11,7 +11,14 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  static const String _chatEndpoint = 'http://127.0.0.1:5000/chat';
+  static const String _defaultChatEndpoint = 'http://127.0.0.1:5000/chat';
+  static const String _chatEndpointFromEnv = String.fromEnvironment(
+    'CHAT_ENDPOINT',
+    defaultValue: _defaultChatEndpoint,
+  );
+  static final String _chatEndpoint = _chatEndpointFromEnv.trim().isEmpty
+      ? _defaultChatEndpoint
+      : _chatEndpointFromEnv;
   static const Duration _requestTimeout = Duration(seconds: 20);
 
   final TextEditingController _controller = TextEditingController();
